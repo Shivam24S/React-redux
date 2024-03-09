@@ -46,6 +46,10 @@ const counterReducer = (state = { counter: 0 }, action) => {
     return {
       counter: state.counter - 1,
     };
+  } else if (action.type === "customIncrementByInput") {
+    return {
+      counter: state.counter + action.amount,
+    };
   } else {
     return state;
   }
