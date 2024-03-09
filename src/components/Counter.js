@@ -7,6 +7,10 @@ const Counter = () => {
   // 11.useSelector will give store slice means  data which want in this component
   const counter = useSelector((state) => state.counter);
 
+  // importing another state
+
+  const show = useSelector((state) => state.showCounter);
+
   // 12 importing useDispatch from react-redux it will dispatch our action to store
 
   const dispatch = useDispatch();
@@ -20,7 +24,7 @@ const Counter = () => {
     dispatch({ type: "decrement" });
   };
 
-  // handling payload
+  // attaching payload
   const input = useRef();
 
   const handleIncrementByInput = () => {
@@ -29,18 +33,24 @@ const Counter = () => {
     dispatch({ type: "customIncrementByInput", amount: +CustomNumber });
   };
 
-  const toggleCounterHandler = () => {};
+  const toggleCounterHandler = () => {
+    dispatch({ type: "toggle" });
+  };
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <input type="number" ref={input} />
-      <div className={classes.value}>{counter}</div>
-      <button onClick={handleIncrement}>increment</button>
+      {show && (
+        <>
+          <input type="number" ref={input} />
+          <div className={classes.value}>{counter}</div>
+        </>
+      )}
+      <button onClick={handleIncrement}>increment by 1</button>
       <button onClick={handleIncrementByInput}>
         increase By Custom Number
       </button>
-      <button onClick={handleDecrement}>decrement</button>
+      <button onClick={handleDecrement}>decrement by 1</button>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
     </main>
   );
