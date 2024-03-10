@@ -3,11 +3,11 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 
 // initial state
 
-const initialState = { counter: 0, showCounter: true };
+const initialCounterState = { counter: 0, showCounter: true };
 
 const counterSlice = createSlice({
   name: "counter",
-  initialState,
+  initialState: initialCounterState,
   reducers: {
     // here we don't need to define type second here we haven't defined action also instead we define our identifier
     increment(state) {
@@ -30,6 +30,21 @@ const counterSlice = createSlice({
   },
 });
 
+const initialAuthState = { isAuthenticated: false };
+
+const authSlice = createSlice({
+  name: "authentication",
+  initialState: initialAuthState,
+  reducers: {
+    login(state) {
+      state.isAuthenticated = true;
+    },
+    logOut(state) {
+      state.isAuthenticated = !state.isAuthenticated;
+    },
+  },
+});
+
 // here we  using configureStore instead of createStore
 // because we can use add multiple slicer in one reducer function
 // configureStore doing this thing
@@ -39,7 +54,7 @@ const counterSlice = createSlice({
 
 const store = configureStore({
   // here we have single state that why we used like this
-  reducer: counterSlice.reducer,
+  reducer: { counter: counterSlice.reducer, auth: authSlice.reducer },
 
   /*{ but if we want to use multiple slicer as reducer here we can do that by simply
     reducer:{counter:counterSlice.reducer),whateverNameYouWantToSet : slicerName.reducer()}
@@ -49,5 +64,7 @@ const store = configureStore({
 // now here i m dispatching my slice actions
 
 export const counterActions = counterSlice.actions;
+
+export const authActions = authSlice.actions;
 
 export default store;

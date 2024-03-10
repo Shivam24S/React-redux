@@ -6,11 +6,11 @@ import { counterActions } from "../store";
 const Counter = () => {
   // 10.importing useSelector from react-redux it will subscribe this component to the store
   // 11.useSelector will give store slice means  data which want in this component
-  const counter = useSelector((state) => state.counter);
+  const counter = useSelector((state) => state.counter.counter);
 
   // importing another state
 
-  const show = useSelector((state) => state.showCounter);
+  const show = useSelector((state) => state.counter.showCounter);
 
   // 12 importing useDispatch from react-redux it will dispatch our action to store
 
