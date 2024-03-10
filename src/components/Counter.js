@@ -1,7 +1,7 @@
 import classes from "./Counter.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
-import { counterActions } from "../store";
+import { counterActions } from "../store/Slicer/CounterSlicer";
 
 const Counter = () => {
   // 10.importing useSelector from react-redux it will subscribe this component to the store

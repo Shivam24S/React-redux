@@ -1,6 +1,6 @@
-import { authActions } from "../store";
+import { authActions } from "../store/Slicer/AuthSlicer";
 import classes from "./Auth.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Auth = () => {
   // const login = useSelector((state) => state.auth.isAuthenticated);
