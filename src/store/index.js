@@ -1,76 +1,53 @@
-// redux basic how in js we work with redux
+// now here i m using redux tool kit to use redux more convenient way in large and complex application
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-// import redux from "redux";
+// initial state
 
-// const counterReducer = (state, action) => {
-//   if (action.type === "increment") {
-//     return {
-//       counter: state.counter + 1,
-//     };
-//   }
-//   if (action.type === "decrement") {
-//     return {
-//       counter: state.counter - 1,
-//     };
-//   }
-//   return state;
-// };
+const initialState = { counter: 0, showCounter: true };
 
-// const store = redux.createStore(counterReducer);
-// console.log(store.getState());
+const counterSlice = createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    // here we don't need to define type second here we haven't defined action also instead we define our identifier
+    increment(state) {
+      // here we are mutating our state we don't have to do this
+      // but redux tool kit use built library which name is emmer which will don't mutate this behind the scene
+      // so thank to  redux toolkit we can mutate by immutable way
+      state.counter++;
+    },
+    decrement(state) {
+      state.counter--;
+    },
+    // now here we  providing action because here we need to pass our action if you see upper code there is no need action there
+    // if  i m using action i have to write always payload not costume value because react will understand in payload object
+    customIncrement(state, action) {
+      state.counter = state.counter + action.payload;
+    },
+    handleToggle(state) {
+      state.showCounter = !state.showCounter;
+    },
+  },
+});
 
-// const counterSubscriber = () => {
-//   const latestState = store.getState();
-//   console.log(latestState);
-// };
+// here we  using configureStore instead of createStore
+// because we can use add multiple slicer in one reducer function
+// configureStore doing this thing
+// but here as you can see in this example we have only one state slice we can send single slice also in configure store
+//  here you have to use only reducer not reducers and any thing because configureStore will only identify reducer function
+// using reducer
 
-// store.dispatch(counterSubscriber);
+const store = configureStore({
+  // here we have single state that why we used like this
+  reducer: counterSlice.reducer,
 
-// store.action({ type: "increment" });
-// store.action({ type: "decrement" });
+  /*{ but if we want to use multiple slicer as reducer here we can do that by simply
+    reducer:{counter:counterSlice.reducer),whateverNameYouWantToSet : slicerName.reducer()}
+    }*/
+});
 
-// now here working with react -redux
+// now here i m dispatching my slice actions
 
-import { createStore } from "redux";
+export const counterActions = counterSlice.actions;
 
-// 2. creating reducer function and passing as argument to createStore
-// 3. reducer function has two arguments first state and second action
-//here i m assigning initial value to my state
-
-const initialValue = { counter: 0, showCounter: true };
-
-const counterReducer = (state = initialValue, action) => {
-  if (action.type === "increment") {
-    return {
-      counter: state.counter + 1,
-      state: state.showCounter,
-    };
-  } else if (action.type === "decrement") {
-    return {
-      counter: state.counter - 1,
-      state: state.showCounter,
-    };
-  } else if (action.type === "customIncrementByInput") {
-    return {
-      counter: state.counter + action.amount,
-      state: state.showCounter,
-    };
-    // handling another state
-  } else if (action.type === "toggle") {
-    return {
-      showCounter: !state.showCounter,
-      counter: state.counter,
-    };
-  } else {
-    return state;
-  }
-};
-
-// 1. creating store central state management
-// 5. passing reducer function as argument to createStore
-
-const store = createStore(counterReducer);
-
-// 6. in react we subscribe component dispatch and action will do in other
-// 7. exporting store and wrapping around high level components index
 export default store;

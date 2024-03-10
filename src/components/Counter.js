@@ -1,6 +1,7 @@
 import classes from "./Counter.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
+import { counterActions } from "../store";
 
 const Counter = () => {
   // 10.importing useSelector from react-redux it will subscribe this component to the store
@@ -17,11 +18,11 @@ const Counter = () => {
 
   const handleIncrement = () => {
     //13. dispatching actions
-    dispatch({ type: "increment" });
+    dispatch(counterActions.increment());
   };
 
   const handleDecrement = () => {
-    dispatch({ type: "decrement" });
+    dispatch(counterActions.decrement());
   };
 
   // attaching payload
@@ -30,11 +31,13 @@ const Counter = () => {
   const handleIncrementByInput = () => {
     const CustomNumber = input.current.value;
     console.log(CustomNumber);
-    dispatch({ type: "customIncrementByInput", amount: +CustomNumber });
+    // passing my payload value as customIncrement method argument
+    // now i have to use at that .payload
+    dispatch(counterActions.customIncrement(+CustomNumber));
   };
 
   const toggleCounterHandler = () => {
-    dispatch({ type: "toggle" });
+    dispatch(counterActions.handleToggle());
   };
 
   return (
